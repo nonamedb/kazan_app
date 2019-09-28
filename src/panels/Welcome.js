@@ -11,13 +11,21 @@ import { Avatar } from '@vkontakte/vkui';
 const Welcome = ({ id, go, setVkInfo, vkInfo }) => {
 	useEffect(() => {
 		VKconnect.subscribe(e => {
-			if (e.detail.type === "VKWebAppGetUserInfoResult") {
-				console.log(e.detail.data);
-				setVkInfo(e.detail.data);
+			const { type, data } = e.detail;
+			if (type === 'VKWebAppGetUserInfoResult') {
+				setVkInfo(data);
+
+				return;
 			}
 
-			if (e.detail.type === 'VKWebAppAllowMessagesFromGroup') {
-				console.log(e.detail);
+			if (type === 'VKWebAppAllowMessagesFromGroupResult') {
+				if (data.result) {
+					console.log('seeeend');
+				} else {
+					console.error(':(((');
+				}
+
+				return;
 			}
 		});
 		VKconnect.send('VKWebAppGetUserInfo');
@@ -32,7 +40,7 @@ const Welcome = ({ id, go, setVkInfo, vkInfo }) => {
 				<span className="greeting">{`Привет, ${vkInfo.first_name}!`}</span>
 				<Avatar src={vkInfo.photo_200}></Avatar>
 				<img src="/Logo.gif"></img>
-				<Button className="goButton" size="xl" onClick={() => go('home')}>Начать волонтёрить</Button>
+				<Button className="goButton" size="xl" onClick={() => go('home')}>Начать</Button>
 			</div>
 		</Panel>
 	);

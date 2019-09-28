@@ -5,7 +5,7 @@ import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 const Event = ({ go, event, handleClick }) => (
     <Cell onClick={handleClick}
         before={event.img ? <Avatar src={event.img}/> : null}
-        description={event.desription}
+        description={event.description}
     >
         {event.name}
     </Cell>

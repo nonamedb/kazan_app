@@ -4,7 +4,7 @@ import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Event from '../components/Event';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { getEvents, setDetailedId } from "../store/actions";
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import Store from '../components/Store';
@@ -13,14 +13,19 @@ import { Div, InfoRow } from '@vkontakte/vkui';
 const Home = ({ id, go, getEvents, events }) => {
 	const [popout, setPopout] = useState(null);
 
+	useSelector((state) => {
+		if (state.events.events.length === 0 && popout === null) {
+			setPopout(<ScreenSpinner size="large" />)
+		} else if (state.events.events.length !== 0 && popout !== null) {
+			setPopout(null);
+		}
+	});
+
 	useEffect(() => {
 		(async function() {
 			try {
-				setPopout(<ScreenSpinner size='large' />);
 				getEvents();
-				setPopout(null);
 			} catch (error) {
-				setPopout(null);
 			}
 		})();
 	}, []);
@@ -31,7 +36,7 @@ const Home = ({ id, go, getEvents, events }) => {
 	};
 
 	const eventsList = events.map(e => {
-		return (<Event key={e.name} handleClick={() => handleClick(e.id)} event={e} />)
+		return (<Event key={e.id} handleClick={() => handleClick(e.id)} event={e} />)
 	});
 
 	return (
