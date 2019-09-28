@@ -1,0 +1,18 @@
+.img {
+    width: 130px;
+    height: 130px;
+}
+
+.storeItem {
+    padding: 10px;
+}
+
+.name {
+    text-transform: capitalize;
+    margin-top: 5px;
+    color: #656565;
+}
+
+.cost {
+    font-weight: bold;
+}

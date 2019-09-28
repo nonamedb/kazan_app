@@ -1,0 +1,20 @@
+.welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.greeting {
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.goButton {
+    width: 220px;
+    height: 50px;
+    margin-top: 20px;
+}
