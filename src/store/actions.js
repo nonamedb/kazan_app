@@ -1,6 +1,5 @@
-import { GET_EVENTS, GET_DETAILED, SET_DETAILED_ID, SET_VK_INFO } from './actionTypes';
+import { GET_EVENTS, GET_DETAILED, SET_DETAILED_ID, SET_VK_INFO, GET_USER_INFO } from './actionTypes';
 import store from './store';
-import ax from 'axios';
 import http from '../http';
 
 export const getEvents = async () => {
@@ -33,4 +32,17 @@ export const setVkInfo = async (info) => {
         type: SET_VK_INFO,
         payload: info,
     });
+}
+
+export const getUserInfo = async (userId) => {
+    const data = await http.get(`/volunteer/${userId}`);
+
+    return store.dispatch({
+        type: GET_USER_INFO,
+        payload: data.data,
+    });
+}
+
+export const joinEvent = async (userId, eventId) => {
+    http.get(`/volunteer/${userId}/join/${eventId}`);
 }

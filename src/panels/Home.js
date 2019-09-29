@@ -5,12 +5,12 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Event from '../components/Event';
 import { connect, useSelector } from 'react-redux';
-import { getEvents, setDetailedId } from "../store/actions";
+import { getEvents, setDetailedId, getUserInfo } from "../store/actions";
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import Store from '../components/Store';
 import { Div, InfoRow } from '@vkontakte/vkui';
 
-const Home = ({ id, go, getEvents, events }) => {
+const Home = ({ id, go, getEvents, events, userInfo, vkInfo }) => {
 	const [popout, setPopout] = useState(null);
 
 	useSelector((state) => {
@@ -24,7 +24,16 @@ const Home = ({ id, go, getEvents, events }) => {
 	useEffect(() => {
 		(async function() {
 			try {
-				getEvents();
+				getEvents(vkInfo.id);
+			} catch (error) {
+			}
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async function() {
+			try {
+				getUserInfo();
 			} catch (error) {
 			}
 		})();
@@ -62,7 +71,7 @@ Home.propTypes = {
 
 const mapStateToProps = state => {
 	console.log('home', state)
-	return { events: state.events.events };
+	return { events: state.events.events, userInfo: state.user.userInfo, vkInfo: state.user.vkInfo };
 }
 
 export default connect(

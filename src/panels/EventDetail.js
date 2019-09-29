@@ -8,26 +8,23 @@ import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import InfoRow from '@vkontakte/vkui/dist/components/InfoRow/InfoRow';
 import { connect, useSelector } from 'react-redux';
 import vkConnect from '@vkontakte/vk-connect';
-import { getDetailed } from '../store/actions';
+import { getDetailed, joinEvent } from '../store/actions';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 
-const EventDetail = ({ id, go, eventId, getDetailed, detailed, vkInfo }) => {
+const EventDetail = ({ id, go, eventId, events, getDetailed, detailed, vkInfo, userInfo }) => {
 	const handleClick = () => {
 		vkConnect.send('VKWebAppAllowMessagesFromGroup', { group_id: 186998404 });
+		joinEvent(vkInfo.id, eventId);
 	};
 	const [popout, setPopout] = useState(null);
 
-	useSelector(state => {
-		const length = Object.keys(state.events.detailed).length;
-		if (length === 0 && popout === null) {
-			setPopout(<ScreenSpinner size="large" />);
-		} else if (length !== 0 && popout !== null) {
-			setPopout(null);
-		}
-	});
+	const isJoined = () => {
+		console.log(detailed.id, events);
+		return userInfo.events.some(item => item.id === detailed.id);
+	}
 
 	useEffect(() => {
 		(async function() {
@@ -62,14 +59,14 @@ const EventDetail = ({ id, go, eventId, getDetailed, detailed, vkInfo }) => {
 				</List>
 			</Group>
 			}
-			{popout ? null : <Button size="xl" onClick={handleClick}>Стать волонтёром</Button>}
+			{!!isJoined() ? null : <Button size="xl" onClick={handleClick}>Стать волонтёром</Button>}
 		</Panel>
     );
 };
 
 const mapStateToProps = state => {
 	console.log('eventDetailed', state);
-	return { eventId: state.events.eventDetailedId, detailed: state.events.detailed, vkInfo: state.user.vkInfo };
+	return { eventId: state.events.eventDetailedId, events: state.events.events, detailed: state.events.detailed, vkInfo: state.user.vkInfo, userInfo: state.user.userInfo };
 }
 
 export default connect(

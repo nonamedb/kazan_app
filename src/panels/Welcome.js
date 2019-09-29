@@ -5,13 +5,14 @@ import './Welcome.css';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
 import VKconnect from '@vkontakte/vk-connect';
 import { connect } from 'react-redux';
-import { setVkInfo } from '../store/actions';
+import { setVkInfo, getUserInfo } from '../store/actions';
 import { Avatar } from '@vkontakte/vkui';
 
-const Welcome = ({ id, go, setVkInfo, vkInfo }) => {
+const Welcome = ({ id, go, setVkInfo, vkInfo, getUserInfo }) => {
 	useEffect(() => {
 		VKconnect.subscribe(e => {
 			const { type, data } = e.detail;
+			console.log(e, 'e');
 			if (type === 'VKWebAppGetUserInfoResult') {
 				setVkInfo(data);
 
@@ -54,5 +55,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ setVkInfo },
+	{ setVkInfo, getUserInfo },
   )(Welcome);

@@ -11,7 +11,7 @@ import Home from './panels/Home';
 import Persik from './panels/Persik';
 import EventDetail from './panels/EventDetail';
 
-const App = ({ setVkInfo }) => {
+const App = () => {
 	const [activePanel, setActivePanel] = useState('welcome');
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
