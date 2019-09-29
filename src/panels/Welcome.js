@@ -34,12 +34,13 @@ const Welcome = ({ id, go, setVkInfo, vkInfo }) => {
 	return (
 		<Panel id={id}>
 			<PanelHeader>
-				Добро пожаловать
+				Знакомство
 			</PanelHeader>
 			<div className="welcome">
+				<img className="logo" src="/Logo.gif"></img>
 				<span className="greeting">{`Привет, ${vkInfo.first_name}!`}</span>
-				<Avatar src={vkInfo.photo_200}></Avatar>
-				<img src="/Logo.gif"></img>
+				<div className="desc">Сегодня в России миллионы людей бескорыстно посвящают своё время, силы и энергию, чтобы сделать мир лучше, а людей счастливее</div>
+				<div className="divider"></div>
 				<Button className="goButton" size="xl" onClick={() => go('home')}>Начать</Button>
 			</div>
 		</Panel>
